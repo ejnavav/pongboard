@@ -1,0 +1,8 @@
+plugins/
+platforms/
+hooks/
+.cordova/
+www/spec/
+config.xml
+www/spec.html
+www/js/index.js

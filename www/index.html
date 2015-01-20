@@ -93,8 +93,7 @@
   <!-- <script src="js/jquery.mobile-1.4.5.js"></script> 
   -->
   <script src='js/fastclick.js'></script>
-  <script src="js/view.js"></script>
-
+  <script src="js/shake.js"></script>
   
 
   
@@ -104,6 +103,22 @@
 	        FastClick.attach(document.body);
 	    }, false);
 	}
+
+	var myShakeEvent = new Shake({
+	    threshold: 15, // optional shake strength threshold
+	    timeout: 1000 // optional, determines the frequency of event generation
+	});
+
+	myShakeEvent.start();
+
+	window.addEventListener('shake', shakeEventDidOccur, false);
+
+//function to call when shake occurs
+	function shakeEventDidOccur () {
+
+	    //put your own code here etc.
+	    scoreBoxController.reset();
+}
 
 	$(function(){
 		var scoreLeftView = new ScoreBoxView("#score-left");
@@ -120,7 +135,8 @@
 	var ScoreBoxView = function(selector) {
 		var htmlElement = $(selector);
 		var set = function(val){
-			return htmlElement.text(val);
+			htmlElement.text(val);
+			return val;
 		}
 		
 		this.htmlElement = htmlElement;
@@ -171,11 +187,23 @@
 		var canMoveDown = function (value){
 			return value > 0;
 		}
+
+		var reset = function (){
+			scoreBoxRightValue=0;
+			scoreBoxLeftValue=0;
+			// scoreBoxRight.set(scoreBoxRightValue);
+			// scoreBoxLeft.set(scoreBoxLeftValue);
+			return [ 
+				scoreBoxRight.set(scoreBoxRightValue),
+				scoreBoxLeft.set(scoreBoxLeftValue)
+			];
+		}
 		
 		this.scoreLeftUp = scoreLeftUp;
 		this.scoreRightUp = scoreRightUp;
 		this.scoreLeftDown = scoreLeftDown;
 		this.scoreRightDown = scoreRightDown;
+		this.reset = reset;
 	}
 	
   </script>

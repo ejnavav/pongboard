@@ -1,111 +1,50 @@
-<!doctype html>
-<html lang="en">
+
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pimpon</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-	<style type="text/css">
-		html, body {height: 100%}
+<title>PongBoard</title>
 
-		html {
-			-webkit-touch-callout: none;
-		    -webkit-user-select: none;
-		    -khtml-user-select: none;
-		    -moz-user-select: none;
-		    -ms-user-select: none;
-		    user-select: none;
-		}
-		body {
-			background-color: black;
-			/*padding: 2vh;*/
-			margin: 0px;
-		}
+  	<script src="js/jquery-2.1.1.min.js"></script>
+  	<script src='js/fastclick.js'></script>
+  	<script src="js/shake.js"></script>
+	<script type="text/javascript" src="js/iscroll.js"></script>
 
-		.container{
-			/*border:solid 10px red;*/
+<script type="text/javascript">
 
+var myScrollLeft;
+var myScrollRight;
 
-		}
+function loaded () {
+	myScrollLeft = new IScroll('#wrapper-left', {
+		scrollY: true,
+		momentum: false,
+		snap: 'li',
+		bounce: false
+	});
 
-		.box {
+	myScrollRight = new IScroll('#wrapper-right', {
+		scrollY: true,
+		momentum: false,
+		snap: 'li'
+	});
 
-			height: 96vh;
-			width: 98vw;
-			top: 2vh;
-			left:2vh;
-			-moz-box-sizing: border-box; 
-			-webkit-box-sizing: border-box; 
-			box-sizing: border-box;
-		}
+}
 
-		.scorebox{
-			width: 49%;
-
-			/*border: solid 10px black;*/
-			float:left;
-			/*font-size: 45vh;*/
-			position: relative;
-		}
-
-		.score-number {
-			background-color: white;
-			height: 100%;
-			font-family: arial;
-			font-size: 60vh;
-			text-align: center;
-			vertical-align: middle;
-			line-height: 100vh;
-
-		  	-webkit-border-radius: 0.1em; 
-		  	-moz-border-radius: 0.1em; 
-		  	border-radius: 0.1em; 
-
-		}
-
-
-		.click-up {
-			position:absolute;
-			top:0;
-			width:100%;
-			height:50%;
-
-		}
-	
-		.click-down {
-			position:absolute;
-			top:50%;
-			width:100%;
-			height:50%;
-		}
-
-		.separator{
-			background-color: black;
-			width:2%;
-			float: left;
-			position: relative;
-		}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
 
 
-	</style>
-  <script src="js/jquery-2.1.1.min.js"></script>
-  <!-- <script src="js/jquery.mobile-1.4.5.js"></script> 
-  -->
-  <script src='js/fastclick.js'></script>
-  <script src="js/shake.js"></script>
-  
-
-  
-  <script>
-  	if ('addEventListener' in document) {
+if ('addEventListener' in document) {
 	    document.addEventListener('DOMContentLoaded', function() {
 	        FastClick.attach(document.body);
 	    }, false);
 	}
 
 	var myShakeEvent = new Shake({
-	    threshold: 15, // optional shake strength threshold
+	    threshold: 20, // optional shake strength threshold
 	    timeout: 1000 // optional, determines the frequency of event generation
 	});
 
@@ -117,113 +56,212 @@
 	function shakeEventDidOccur () {
 
 	    //put your own code here etc.
-	    scoreBoxController.reset();
+	    myScrollLeft.goToPage(0,0,2000);
+	    myScrollRight.goToPage(0,0,2000);
 }
 
-	$(function(){
-		var scoreLeftView = new ScoreBoxView("#score-left");
-		var scoreRightView = new ScoreBoxView("#score-right");
-		scoreBoxController = new ScoreBoxController(scoreLeftView,scoreRightView);
-	    
-		$("#left-click-up").click(scoreBoxController.scoreLeftUp);
-		$("#left-click-down").click(scoreBoxController.scoreLeftDown);
-		$("#right-click-up").click(scoreBoxController.scoreRightUp);
-		$("#right-click-down").click(scoreBoxController.scoreRightDown);
 
-	});
-		
-	var ScoreBoxView = function(selector) {
-		var htmlElement = $(selector);
-		var set = function(val){
-			htmlElement.text(val);
-			return val;
-		}
-		
-		this.htmlElement = htmlElement;
-		this.set = set;
-	};
-	
-	var ScoreBoxController = function (scoreBoxLeft, scoreBoxRight) {
-		var scoreBoxLeftValue = 0;
-		var scoreBoxRightValue = 0;
-		var maxScore = 21;
+</script>
 
-		var scoreLeftUp = function(){
-			if (canMoveUp(scoreBoxLeftValue)) {
-				scoreBoxLeftValue = scoreBoxLeftValue + 1;
-				scoreBoxLeft.set(scoreBoxLeftValue);
-			}
-			return scoreBoxLeftValue;
-		}
-		
-		var scoreRightUp = function(){
-			if (canMoveUp(scoreBoxRightValue)) {
-				scoreBoxRightValue = scoreBoxRightValue + 1;
-				scoreBoxRight.set(scoreBoxRightValue);
-			}
-			return scoreBoxRightValue;
-		}
-		
-		var scoreLeftDown = function(){
-			if (canMoveDown(scoreBoxLeftValue)) {
-				scoreBoxLeftValue = scoreBoxLeftValue - 1;
-				scoreBoxLeft.set(scoreBoxLeftValue);
-			}
-			return scoreBoxLeftValue;
-		}
-		
-		var scoreRightDown = function(){
-			if (canMoveDown(scoreBoxRightValue)) {
-				scoreBoxRightValue = scoreBoxRightValue - 1;
-				scoreBoxRight.set(scoreBoxRightValue);
-			}
-			return scoreBoxRightValue;
-		}
-		
-		var canMoveUp = function (value){
-			return value < maxScore;
-		}
-		
-		var canMoveDown = function (value){
-			return value > 0;
-		}
+<style type="text/css">
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 
-		var reset = function (){
-			scoreBoxRightValue=0;
-			scoreBoxLeftValue=0;
-			// scoreBoxRight.set(scoreBoxRightValue);
-			// scoreBoxLeft.set(scoreBoxLeftValue);
-			return [ 
-				scoreBoxRight.set(scoreBoxRightValue),
-				scoreBoxLeft.set(scoreBoxLeftValue)
-			];
-		}
-		
-		this.scoreLeftUp = scoreLeftUp;
-		this.scoreRightUp = scoreRightUp;
-		this.scoreLeftDown = scoreLeftDown;
-		this.scoreRightDown = scoreRightDown;
-		this.reset = reset;
-	}
-	
-  </script>
-  
+html {
+	-ms-touch-action: none;
+}
+
+body,ul,li {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+body {
+/*	font-size: 12px;
+	font-family: ubuntu, helvetica, arial;*/
+	overflow: hidden; /* this is important to prevent the whole page to bounce */
+	background-color: black;
+}
+
+
+#wrapper-left {
+	position: absolute;
+	z-index: 1;
+	background: black;
+	overflow: hidden;
+
+	left: 5vh;
+	top:5vh;
+	bottom: 5vh;
+	right:52vw;
+	width: auto;
+	height: auto;
+
+}
+
+#wrapper-right {
+	position: absolute;
+	z-index: 1;
+	background: black;
+	overflow: hidden;
+
+	left: 50vw;
+	top:5vh;
+	bottom: 5vh;
+	right:5vh;
+	width: auto;
+	height: auto;
+}
+
+.scroller {
+	position: absolute;
+	z-index: 1;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	width: 100%;
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+	background-color: white;
+}
+
+.scroller ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	text-align: left;
+
+}
+
+/*#scroller li {
+	padding: 0 10px;   
+	height: 40px;
+	line-height: 40px;
+	background-color: #fafafa;
+	font-size: 14px;
+}*/
+
+.scroller li {
+	height: 100vh;
+	font-family: arial;
+	font-size: 50vh;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 90vh;
+	background-color: white;
+
+/*		  	-webkit-border-radius: 0.1em; 
+  	-moz-border-radius: 0.1em; 
+  	border-radius: 0.1em; */
+
+}
+
+.round-corners{
+	-webkit-border-radius: 5vh; 
+  	-moz-border-radius: 5vh; 
+  	border-radius: 5vh;
+/*
+  	-webkit-border-radius: 10px; 
+  	-moz-border-radius: 10px; 
+  	border-radius: 10px;*/
+
+}
+
+.wrapper-left-background{
+	background-color: black;
+	position: absolute;
+	z-index: 0;
+	top: 0;
+	bottom: 0;
+	width: 50%;
+	overflow: hidden;
+
+}
+
+</style>
 </head>
-<body>
-	<div class="container box">
-		<div class="box scorebox">
-			<div class= "score-number" id="score-left">0</div>
-			<div id="left-click-up" class="click-up"></div>
-			<div id="left-click-down" class="click-down"></div>
-		</div>
-		<div class="box separator">
+<body onload="loaded()">
 
-		</div>
-		<div class="box scorebox">
-			<div class= "score-number" id="score-right">0</div>
-			<div id="right-click-up" class="click-up"></div>
-			<div id="right-click-down" class="click-down"></div>
-		</div>
+<div class="wrapper-left-background">
+
+</div>
+
+<div class="round-corners" id="wrapper-left">
+	<div class="scroller">
+		<ul>
+			<li>0</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+			<li>10</li>
+			<li>11</li>
+			<li>12</li>
+			<li>13</li>
+			<li>14</li>
+			<li>15</li>
+			<li>16</li>
+			<li>17</li>
+			<li>18</li>
+			<li>19</li>
+			<li>20</li>
+			<li>21</li>
+		</ul>
 	</div>
+</div>
+
+<div class="round-corners" id="wrapper-right">
+	<div class="scroller">
+		<ul>
+			<li>0</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+			<li>10</li>
+			<li>11</li>
+			<li>12</li>
+			<li>13</li>
+			<li>14</li>
+			<li>15</li>
+			<li>16</li>
+			<li>17</li>
+			<li>18</li>
+			<li>19</li>
+			<li>20</li>
+			<li>21</li>
+		</ul>
+	</div>
+</div>
+
+
 </body>
 </html>

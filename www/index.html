@@ -7,10 +7,10 @@
 
 <title>PongBoard</title>
 
-  	<script src="js/jquery-2.1.1.min.js"></script>
-  	<script src='js/fastclick.js'></script>
-  	<script src="js/shake.js"></script>
-	<script type="text/javascript" src="js/iscroll.js"></script>
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src='js/fastclick.js'></script>
+<script src="js/shake.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
 
 <script type="text/javascript">
 
@@ -18,18 +18,16 @@ var myScrollLeft;
 var myScrollRight;
 
 function loaded () {
-	myScrollLeft = new IScroll('#wrapper-left', {
+
+	var scrollOptions = {
 		scrollY: true,
 		momentum: false,
 		snap: 'li',
 		bounce: false
-	});
+	};
 
-	myScrollRight = new IScroll('#wrapper-right', {
-		scrollY: true,
-		momentum: false,
-		snap: 'li'
-	});
+	myScrollLeft = new IScroll('#wrapper-left', scrollOptions);
+	myScrollRight = new IScroll('#wrapper-right', scrollOptions);
 
 }
 
@@ -54,11 +52,9 @@ if ('addEventListener' in document) {
 
 //function to call when shake occurs
 	function shakeEventDidOccur () {
-
-	    //put your own code here etc.
 	    myScrollLeft.goToPage(0,0,2000);
 	    myScrollRight.goToPage(0,0,2000);
-}
+	}
 
 
 </script>

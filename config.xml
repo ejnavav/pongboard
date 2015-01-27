@@ -2,7 +2,7 @@
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>PongBoard</name>
     <description>
-        Just a simple table tennis scoreboard
+        Just a simple table tennis scoreboard. Nothing Fancy!
     </description>
     <author email="pong@navabros.com" href="http://navabros.com">
         Navabros Team

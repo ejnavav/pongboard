@@ -5,3 +5,4 @@ hooks/
 www/spec/
 www/spec.html
 www/js/index.js
+*.keystore
